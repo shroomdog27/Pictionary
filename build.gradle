@@ -1,0 +1,23 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+group = 'org.sweetiebelle'
+version = '0.0.0'
+
+repositories {
+	jcenter()
+}
+dependencies {
+	compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Pictionary",
+                   "Implementation-Version": version,
+                   "Class-Path": ".",
+                   "Main-Class": "Main")
+    }
+}

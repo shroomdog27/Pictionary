@@ -33,6 +33,12 @@ public class GameWindow extends JFrame {
         );
 
         pack();
-    }// @formatter:on                       
+    }// @formatter:on    
+    
+    public void resizeWindow(int newWidth, int newHeight) {
+        Dimension d = new Dimension(newWidth, newHeight);
+        setPreferredSize(d);
+        setSize(d);
+    }
 
 }

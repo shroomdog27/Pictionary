@@ -1,7 +1,6 @@
 package org.sweetiebelle.pictionary;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import org.sweetiebelle.pictionary.windows.BlankWindow;
 import org.sweetiebelle.pictionary.windows.GameWindow;
 import org.sweetiebelle.pictionary.windows.MainMenu;
 import org.sweetiebelle.pictionary.windows.TeamAvatarSelectionPanel;
@@ -86,6 +84,8 @@ public class Pictionary implements Runnable {
     public void initializeBoard() {
         avatarPanel.setVisible(false);
         gameWindow.remove(avatarPanel);
-      //  gameWindow.setContentPane(new BlankWindow());
+        gameWindow.resizeWindow(1000, 800);
+        gameWindow.setPeices();
+        System.out.println("Finished setting tiles.");
     }
 }

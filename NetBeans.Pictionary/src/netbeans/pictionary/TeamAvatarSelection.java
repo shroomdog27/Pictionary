@@ -110,7 +110,7 @@ public class TeamAvatarSelection extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        turquoiseColour.setBackground(new java.awt.Color(0, 0, 255));
+        turquoiseColour.setBackground(new java.awt.Color(0, 255, 255));
         turquoiseColour.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 turquoiseColourMouseClicked(evt);

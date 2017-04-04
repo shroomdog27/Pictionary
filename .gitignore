@@ -51,3 +51,8 @@ local.properties
 .idea/
 .gradle/
 build/
+
+#NetBeans
+NetBeans.Pictionary/build/
+NetBeans.Pictionary/dist/
+NetBeans.Pictionary/nbproject/private/

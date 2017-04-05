@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import org.sweetiebelle.pictionary.windows.DisplayWindow;
 import org.sweetiebelle.pictionary.windows.GameWindow;
 import org.sweetiebelle.pictionary.windows.MainMenu;
 import org.sweetiebelle.pictionary.windows.TeamAvatarSelectionPanel;
@@ -16,13 +17,14 @@ import org.sweetiebelle.pictionary.windows.TeamNumberSelectionPanel;
 public class Pictionary implements Runnable {
 
     private MainMenu mainMenu;
-    private GameWindow gameWindow;
+    private DisplayWindow displayWindow;
     private int numOfTeamTwo;
     private int numOfTeamOne;
     private TeamNumberSelectionPanel teamNumSelection;
     private TeamAvatarSelectionPanel avatarPanel;
     private Color team1Color;
     private Color team2Color;
+    private GameWindow gameWindow;
 
     public Pictionary() {
         mainMenu = new MainMenu(this);
@@ -47,12 +49,12 @@ public class Pictionary implements Runnable {
      */
     public void startGame() {
         mainMenu.setVisible(false);
-        gameWindow = new GameWindow();
-        gameWindow.setVisible(true);
+        displayWindow = new DisplayWindow();
+        displayWindow.setVisible(true);
         teamNumSelection = new TeamNumberSelectionPanel(this);
-        gameWindow.resizeWindow(250, 250);
-        gameWindow.setContentPane(teamNumSelection);
-        gameWindow.setVisible(true);
+        displayWindow.resizeWindow(250, 250);
+        displayWindow.setContentPane(teamNumSelection);
+        displayWindow.setVisible(true);
     }
 
     /**
@@ -69,10 +71,10 @@ public class Pictionary implements Runnable {
      */
     public void getAvatars() {
         teamNumSelection.setVisible(false);
-        gameWindow.remove(teamNumSelection);
+        displayWindow.remove(teamNumSelection);
         avatarPanel = new TeamAvatarSelectionPanel(this);
-        gameWindow.resizeWindow(900, 500);
-        gameWindow.setContentPane(avatarPanel);
+        displayWindow.resizeWindow(900, 500);
+        displayWindow.setContentPane(avatarPanel);
     }
 
     public void setTeamColours(Color team1Color, Color team2Color) {
@@ -83,9 +85,9 @@ public class Pictionary implements Runnable {
 
     public void initializeBoard() {
         avatarPanel.setVisible(false);
-        gameWindow.remove(avatarPanel);
-        gameWindow.resizeWindow(1000, 800);
-        gameWindow.setPeices();
+        displayWindow.remove(avatarPanel);
+        displayWindow.resizeWindow(1000, 800);
+        gameWindow = new GameWindow(this);
         System.out.println("Finished setting tiles.");
     }
 }

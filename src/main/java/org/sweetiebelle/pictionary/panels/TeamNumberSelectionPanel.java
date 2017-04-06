@@ -1,5 +1,5 @@
 
-package org.sweetiebelle.pictionary.windows;
+package org.sweetiebelle.pictionary.panels;
 
 
 import java.awt.Font;
@@ -44,8 +44,10 @@ public class TeamNumberSelectionPanel extends JPanel {
         teamTwoLabel = new JLabel();
         confirmButton = new JButton();
 
+        setMaximumSize(new java.awt.Dimension(250, 250));
+        setMinimumSize(new java.awt.Dimension(250, 250));
         setPreferredSize(new java.awt.Dimension(250, 250));
-
+        
         team1Selection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         team1Selection.setMaximumRowCount(6);
         team1Selection.setModel(new DefaultComboBoxModel<Integer>(new Integer[] {2, 3, 4, 5, 6 }));

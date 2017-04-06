@@ -10,22 +10,14 @@ repositories {
 	mavenCentral()
 }
 dependencies {
-    compile 'com.google.guava:guava:21.0'
-    runtime 'com.google.guava:guava:21.0'
 	compile fileTree(dir: 'libs', include: '*.jar')
 }
 
-task fatJar(type: Jar) {
+jar {
     manifest {
         attributes("Implementation-Title": "Pictionary",
                    "Implementation-Version": version,
                    "Class-Path": ".",
                    "Main-Class": "Main")
     }
-    from { 
-    	configurations.compile.collect { 
-    		it.isDirectory() ? it : zipTree(it) 
-    	} 
-    }
-    with jar
 }

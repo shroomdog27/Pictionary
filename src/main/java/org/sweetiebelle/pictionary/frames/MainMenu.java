@@ -1,4 +1,4 @@
-package org.sweetiebelle.pictionary.windows;
+package org.sweetiebelle.pictionary.frames;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -35,6 +35,7 @@ public class MainMenu extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 500));
+        setTitle("Main Menu");
 
         pictionaryLabel.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         pictionaryLabel.setText("Pictionary");
@@ -87,8 +88,7 @@ public class MainMenu extends JFrame {
     }// @formatter:on                       
 
     protected void optionsButtonMouseClicked(MouseEvent evt) {
-        JOptionPane.showMessageDialog(this, "There are currently no options to edit!");
-
+        JOptionPane.showMessageDialog(this, "There are currently no options to edit!", "Options Menu", JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected void startButtonMouseClicked(MouseEvent evt) {

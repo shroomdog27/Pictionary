@@ -2,10 +2,10 @@
 Clone this repository.
 
 ## On windows
-Run `gradlew.bat fatJar`
+Run `gradlew.bat build`
 
 ## On Not-windows
 Run
 `chmod +x gradlew`
 
-`./gradlew fatJar`
+`./gradlew build`

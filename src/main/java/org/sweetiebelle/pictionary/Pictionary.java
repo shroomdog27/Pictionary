@@ -2,36 +2,53 @@ package org.sweetiebelle.pictionary;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.security.SecureRandom;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import org.sweetiebelle.pictionary.windows.DisplayWindow;
-import org.sweetiebelle.pictionary.windows.GameWindow;
-import org.sweetiebelle.pictionary.windows.MainMenu;
-import org.sweetiebelle.pictionary.windows.TeamAvatarSelectionPanel;
-import org.sweetiebelle.pictionary.windows.TeamNumberSelectionPanel;
+import org.sweetiebelle.pictionary.frames.DisplayWindow;
+import org.sweetiebelle.pictionary.frames.GameWindow;
+import org.sweetiebelle.pictionary.frames.MainMenu;
+import org.sweetiebelle.pictionary.frames.PaintingFrame;
+import org.sweetiebelle.pictionary.panels.CardPanel;
+import org.sweetiebelle.pictionary.panels.TeamAvatarSelectionPanel;
+import org.sweetiebelle.pictionary.panels.TeamNumberSelectionPanel;
+import org.sweetiebelle.pictionary.panels.TimeAndConfirmPanel;
 
 public class Pictionary implements Runnable {
 
+    public static final Color LIVING_CREATURE = Color.YELLOW;
+    public static final Color OBJECT = Color.BLUE;
+    public static final Color ACTION = new Color(245, 245, 220);
+    public static final Color DIFFICULT = Color.GREEN;
+    public static final Color ALL_PLAY = Color.RED;
     private MainMenu mainMenu;
     private DisplayWindow displayWindow;
+    @SuppressWarnings("unused")
     private int numOfTeamTwo;
+    @SuppressWarnings("unused")
     private int numOfTeamOne;
     private TeamNumberSelectionPanel teamNumSelection;
     private TeamAvatarSelectionPanel avatarPanel;
+    @SuppressWarnings("unused")
     private Color team1Color;
+    @SuppressWarnings("unused")
     private Color team2Color;
     private GameWindow gameWindow;
+    private SecureRandom random;
+    public static final ExecutorService threads =  Executors.newCachedThreadPool();
 
     public Pictionary() {
+        random = new SecureRandom();
+        random.setSeed(new byte[20]);
         mainMenu = new MainMenu(this);
         try {
             UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
-        } catch (final Exception ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
         EventQueue.invokeLater(() -> run());
     }
@@ -54,6 +71,7 @@ public class Pictionary implements Runnable {
         teamNumSelection = new TeamNumberSelectionPanel(this);
         displayWindow.resizeWindow(250, 250);
         displayWindow.setContentPane(teamNumSelection);
+        displayWindow.setTitle("Team Number Selection");
         displayWindow.setVisible(true);
     }
 
@@ -74,6 +92,7 @@ public class Pictionary implements Runnable {
         displayWindow.remove(teamNumSelection);
         avatarPanel = new TeamAvatarSelectionPanel(this);
         displayWindow.resizeWindow(900, 500);
+        displayWindow.setTitle("Team Avatar Selection");
         displayWindow.setContentPane(avatarPanel);
     }
 
@@ -86,8 +105,86 @@ public class Pictionary implements Runnable {
     public void initializeBoard() {
         avatarPanel.setVisible(false);
         displayWindow.remove(avatarPanel);
-        displayWindow.resizeWindow(1000, 800);
-        gameWindow = new GameWindow(this);
-        System.out.println("Finished setting tiles.");
+        displayWindow.setVisible(false);
+        // gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
+        // gameWindow.setVisible(true);
+        // System.out.println("Finished setting tiles.");
+        doCardGame(1, LIVING_CREATURE);
+    }
+
+    @SuppressWarnings("unused")
+    private int getWhoGoesFirst() {
+        return 1;
+    }
+
+    /**
+     * Returns a random integer
+     * 
+     * @param min
+     *            minimum value, inclusive
+     * @param max
+     *            maximum value, inclusive
+     * @return the random integer
+     */
+    public int getRandom(final int min, final int max) {
+        return (int) ((max - min + 1) * random.nextDouble() + min);
+    }
+
+    public void doCardGame(int team, Color background) {
+        displayWindow.resizeWindow(350, 200);
+        displayWindow.setTitle("Card");
+        CardPanel card = new CardPanel();
+        String cardToHaveDrawn = getNameFromCardType(background);
+        card.changeColor(background);
+        card.changeDisplayText(cardToHaveDrawn);
+        displayWindow.setContentPane(card);
+        displayWindow.setVisible(true);
+        threads.submit(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            displayWindow.remove(card);
+            displayWindow.setVisible(false);
+            PaintingFrame paint = new PaintingFrame();
+            paint.setVisible(true);
+            TimeAndConfirmPanel panel = new TimeAndConfirmPanel(this);
+            displayWindow.resizeWindow(300, 250);
+            displayWindow.setTitle("Timer");
+            displayWindow.setContentPane(panel);
+            panel.start();
+        });
+    }
+
+    private String getNameFromCardType(Color type) {
+        if (type.equals(LIVING_CREATURE)) {
+            return "Donald Trump";
+        }
+        if (type.equals(OBJECT)) {
+            return "Donald Trump";
+        }
+        if (type.equals(ACTION)) {
+            return "Donald Trump";
+        }
+        if (type.equals(DIFFICULT)) {
+            return "Donald Trump";
+        }
+        if (type.equals(ALL_PLAY)) {
+            return "Donald Trump";
+        }
+        return "Donald Trump";
+    }
+
+    public void cardSuccess(boolean b) {
+        if(b) {
+            // Do nothing, still their turn.
+            return;
+        }
+        if(gameWindow.currentTurn() == 1) {
+            gameWindow.setTurn(2);
+            return;
+        }
+        gameWindow.setTurn(1);
     }
 }

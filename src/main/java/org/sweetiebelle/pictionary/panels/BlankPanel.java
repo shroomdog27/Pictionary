@@ -1,4 +1,4 @@
-package org.sweetiebelle.pictionary.windows;
+package org.sweetiebelle.pictionary.panels;
 
 import javax.swing.JPanel;
 

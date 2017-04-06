@@ -33,11 +33,14 @@ public class TeamNumberSelectionPanel extends javax.swing.JPanel {
         teamTwoLabel = new javax.swing.JLabel();
         confirmButton = new javax.swing.JButton();
 
+        setMaximumSize(new java.awt.Dimension(250, 250));
+        setMinimumSize(new java.awt.Dimension(250, 250));
         setPreferredSize(new java.awt.Dimension(250, 250));
 
         team1Selection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        team1Selection.setMaximumRowCount(6);
-        team1Selection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+        team1Selection.setMaximumRowCount(5);
+        team1Selection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6" }));
+        team1Selection.setToolTipText("");
         team1Selection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 team1SelectionActionPerformed(evt);
@@ -79,8 +82,7 @@ public class TeamNumberSelectionPanel extends javax.swing.JPanel {
                     .addComponent(teamOneLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(team1Selection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)))
+                        .addComponent(team1Selection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(teamTwoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)

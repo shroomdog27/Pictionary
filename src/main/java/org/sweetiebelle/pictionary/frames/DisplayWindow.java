@@ -14,7 +14,7 @@ public class DisplayWindow extends JFrame {
 
     private void initComponents() {
 
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setName("displayWindow");
         setPreferredSize(new Dimension(500, 500));
         setResizable(false);

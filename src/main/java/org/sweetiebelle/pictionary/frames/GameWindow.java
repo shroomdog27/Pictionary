@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -12,6 +13,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
@@ -208,12 +210,11 @@ public class GameWindow extends JFrame {
         initComponents();
         makeArrayFromPanels();
         resetPanels(teamOne, teamTwo);
-        moveTeamOneToPanel(panels.get(54));
+        moveTeamOneToPanel(panels.get(5));
         moveTeamTwoToPanel(panels.get(54));
-
         teamNumber = goingFirst;
         updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
-        teamOnePos = 54;
+        teamOnePos = 5;
         teamTwoPos = 54;
     }
 
@@ -2928,29 +2929,67 @@ public class GameWindow extends JFrame {
      * @param evt
      */
     private void rollButtonMouseClicked(MouseEvent evt) {
+        diceBox.setVisible(true);
         if (teamNumber == 1) {
-            int number = pictionary.getRandom(1, 6);
-            dieNumberLabel.setText("" + number);
-            GameTile panelToMoveTo = panels.get(teamOnePos - number);
-
-            moveTeamOneToPanel(panelToMoveTo);
-            teamOnePos = teamOnePos - number;
-            // pictionary.doCardGame(1, panelToMoveTo.getColor());
-            teamNumber = 2;
-            updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
+            boolean onEnd = isOnEnd(1);
+            if (onEnd) {
+                diceBox.setVisible(false);
+                pictionary.doCardGame(1, Color.RED);
+            } else {
+                int number = pictionary.getRandom(1, 6);
+                dieNumberLabel.setText("" + number);
+                GameTile panelToMoveTo;
+                if (teamOnePos - number < 0) {
+                    panelToMoveTo = panels.get(0);
+                    teamOnePos = 0;
+                    moveTeamOneToPanel(panelToMoveTo);
+                } else {
+                    panelToMoveTo = panels.get(teamOnePos - number);
+                    moveTeamOneToPanel(panelToMoveTo);
+                    teamOnePos = teamOnePos - number;
+                }
+                pictionary.doCardGame(1, panelToMoveTo.getColor());
+            }
+            if (isOnEnd(teamNumber))
+                updateteamRollingText("Team " + teamNumber + ", guess this next card correct to win!");
+            else
+                updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
             return;
         }
         if (teamNumber == 2) {
-            int number = pictionary.getRandom(1, 6);
-            dieNumberLabel.setText("" + number);
-            GameTile panelToMoveTo = panels.get(teamTwoPos - number);
+            boolean onEnd = isOnEnd(2);
+            if (onEnd) {
+                diceBox.setVisible(false);
+                pictionary.doCardGame(2, Color.RED);
+            } else {
+                int number = pictionary.getRandom(1, 6);
+                dieNumberLabel.setText("" + number);
+                GameTile panelToMoveTo;
+                if (teamTwoPos - number < 0) {
+                    panelToMoveTo = panels.get(0);
+                    teamTwoPos = 0;
+                    moveTeamOneToPanel(panelToMoveTo);
+                } else {
+                    panelToMoveTo = panels.get(teamTwoPos - number);
+                    moveTeamOneToPanel(panelToMoveTo);
+                    teamTwoPos = teamTwoPos - number;
+                }
 
-            moveTeamTwoToPanel(panelToMoveTo);
-            teamTwoPos = teamTwoPos - number;
-            // pictionary.doCardGame(2, panelToMoveTo.getColor());
-            teamNumber = 1;
-            updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
+                pictionary.doCardGame(2, panelToMoveTo.getColor());
+                // teamNumber = 1;
+            }
+            if (isOnEnd(teamNumber))
+                updateteamRollingText("Team " + teamNumber + ", guess this next card correct to win!");
+            else
+                updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
         }
+    }
+
+    public boolean isOnEnd(int i) {
+        if (i == 1) {
+            return teamOnePos == 0;
+        }
+        return teamTwoPos == 0;
     }
 
     public void setTurn(int teamTurn) {
@@ -2959,5 +2998,11 @@ public class GameWindow extends JFrame {
 
     private void updateteamRollingText(String newText) {
         teamNumberToRollLabel.setText(newText);
+    }
+
+    public void victory(Color team1, Color team2, int i) {
+        JOptionPane.showMessageDialog(this, "Congratulations Team " + i + " Has Won!", "Victory", JOptionPane.INFORMATION_MESSAGE);
+        resetPanels(team1, team2);
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

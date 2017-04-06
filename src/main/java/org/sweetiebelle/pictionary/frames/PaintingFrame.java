@@ -12,7 +12,7 @@ import javax.swing.*;
  * This class also contains a main program, and it can be run as a stand-alone application that has exactly the same functionality as the applet.
  * @author David J. Eck
  */
-public class PaintingFrame extends JApplet {
+public class PaintingFrame extends JFrame {
 
 
     private static final long serialVersionUID = -984692640655764608L;
@@ -21,23 +21,14 @@ public class PaintingFrame extends JApplet {
      * The main routine opens a window that displays a drawing area and color palette. This main routine allows this class to be run as a stand-alone application as well as as an applet. The main routine has nothing to do with the function of this class as an applet.
      */
     public PaintingFrame() {
-        JFrame window = new JFrame("Paint");
         SimplePaintPanel content = new SimplePaintPanel();
-        window.setContentPane(content);
-        window.setSize(600, 480);
-        window.setLocation(100, 100);
-        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        window.setVisible(true);
-
+        setContentPane(content);
+        setSize(600, 480);
+        setLocation(100, 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
-    /**
-     * The init method of the applet simply creates a SimplePaintPanel and uses it as the content pane of the applet. All the work is done by the SimplePaintPanel.
-     */
-    @Override
-    public void init() {
-        setContentPane(new SimplePaintPanel());
-    }
 
     /**
      * A simple paint panel contains a large white drawing surface where the user can draw curves and a color palette that the user can click to select the color to be used for drawing. When this class is used as an applet, the content pane of the applet is a SimplePaintPanel. When this class is run as a standalone application, the content pane is a SimplePaintPanel. All the real work is done in the SimplePaintPanel class.

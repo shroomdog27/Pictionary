@@ -23,7 +23,6 @@ public class GameTile {
 
     public void disableTwo() {
         two.setVisible(false);
-        // two.setBackground(bgTwo);
     }
 
     public void enableOne() {

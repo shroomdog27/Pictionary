@@ -48,7 +48,7 @@ public class TeamNumberSelectionPanel extends JPanel {
         setMinimumSize(new java.awt.Dimension(250, 250));
         setPreferredSize(new java.awt.Dimension(250, 250));
         
-        team1Selection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        team1Selection.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         team1Selection.setMaximumRowCount(6);
         team1Selection.setModel(new DefaultComboBoxModel<Integer>(new Integer[] {2, 3, 4, 5, 6 }));
         team1Selection.addActionListener(new ActionListener() {
@@ -58,11 +58,11 @@ public class TeamNumberSelectionPanel extends JPanel {
             }
         });
 
-        teamOneLabel.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        teamOneLabel.setFont(new Font("Times New Roman", 0, 14)); // NOI18N
         teamOneLabel.setText("Team One Size");
         teamOneLabel.setToolTipText("");
 
-        team2Selection.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        team2Selection.setFont(new Font("Times New Roman", 0, 14)); // NOI18N
         team2Selection.setMaximumRowCount(6);
         team2Selection.setModel(new DefaultComboBoxModel<Integer>(new Integer[] {2, 3, 4, 5, 6 }));
         team2Selection.addActionListener(new ActionListener() {
@@ -72,7 +72,7 @@ public class TeamNumberSelectionPanel extends JPanel {
             }
         });
 
-        teamTwoLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        teamTwoLabel.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         teamTwoLabel.setText("Team Two Size");
         teamTwoLabel.setToolTipText("");
         teamTwoLabel.setPreferredSize(new java.awt.Dimension(90, 17));

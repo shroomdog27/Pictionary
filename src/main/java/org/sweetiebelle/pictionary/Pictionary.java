@@ -3,9 +3,6 @@ package org.sweetiebelle.pictionary;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.security.SecureRandom;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -25,6 +22,7 @@ public class Pictionary implements Runnable {
     public static final Color ACTION = new Color(245, 245, 220);
     public static final Color DIFFICULT = Color.GREEN;
     public static final Color ALL_PLAY = Color.RED;
+    private final String[][] CARDS = { { "Elephant", "Dog", "Cat", "Donald Trump", "Morgan Freeman" }, { "Lamp", "Fan", "Pikachu" }, { "Running", "Banking", "Drawing" }, { "Amy Winehouse", "Sammy Davis Jr." } };
     private MainMenu mainMenu;
     private DisplayWindow displayWindow;
     @SuppressWarnings("unused")
@@ -37,11 +35,12 @@ public class Pictionary implements Runnable {
     private Color team2Color;
     private GameWindow gameWindow;
     private SecureRandom random;
-    public static final ExecutorService threads =  Executors.newCachedThreadPool();
+    private CardPanel card;
+    private TimeAndConfirmPanel panel;
+    private PaintingFrame paint;
 
     public Pictionary() {
         random = new SecureRandom();
-        random.setSeed(new byte[20]);
         mainMenu = new MainMenu(this);
         try {
             UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
@@ -79,7 +78,6 @@ public class Pictionary implements Runnable {
     public void setTeamNumbers(int numOfTeamOne, int numOfTeamTwo) {
         this.numOfTeamOne = numOfTeamOne;
         this.numOfTeamTwo = numOfTeamTwo;
-        System.out.printf("%d %d %n", numOfTeamOne, numOfTeamTwo);
     }
 
     /**
@@ -97,17 +95,14 @@ public class Pictionary implements Runnable {
     public void setTeamColours(Color team1Color, Color team2Color) {
         this.team1Color = team1Color;
         this.team2Color = team2Color;
-        System.out.printf("1 is %s, 2 is %s%n", team1Color.toString(), team2Color.toString());
     }
 
     public void initializeBoard() {
         avatarPanel.setVisible(false);
         displayWindow.remove(avatarPanel);
         displayWindow.setVisible(false);
-         gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
-         gameWindow.setVisible(true);
-         System.out.println("Finished setting tiles.");
-        //doCardGame(1, LIVING_CREATURE);
+        gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
+        gameWindow.setVisible(true);
     }
 
     private int getWhoGoesFirst() {
@@ -130,55 +125,61 @@ public class Pictionary implements Runnable {
     public void doCardGame(int team, Color background) {
         displayWindow.resizeWindow(350, 200);
         displayWindow.setTitle("Card");
-        CardPanel card = new CardPanel();
-        String cardToHaveDrawn = getNameFromCardType(background);
-        card.changeColor(background);
-        card.changeDisplayText(cardToHaveDrawn);
+        card = new CardPanel(this, background, getNameFromCardType(background));
         displayWindow.setContentPane(card);
         displayWindow.setVisible(true);
-        threads.submit(() -> {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            displayWindow.remove(card);
-            displayWindow.setVisible(false);
-            PaintingFrame paint = new PaintingFrame();
-            paint.setVisible(true);
-            TimeAndConfirmPanel panel = new TimeAndConfirmPanel(this);
-            displayWindow.resizeWindow(300, 250);
-            displayWindow.setTitle("Timer");
-            displayWindow.setContentPane(panel);
-            panel.start();
-        });
+        displayWindow.remove(card);
+    }
+
+    public void doneDisplaying() {
+        card.setVisible(false);
+        displayWindow.remove(card);
+        displayWindow.setVisible(false);
+        paint = new PaintingFrame();
+        paint.setVisible(true);
+        panel = new TimeAndConfirmPanel(this);
+        displayWindow.resizeWindow(300, 250);
+        displayWindow.setTitle("Timer");
+        displayWindow.setContentPane(panel);
+        displayWindow.setVisible(true);
+        panel.start();
     }
 
     private String getNameFromCardType(Color type) {
         if (type.equals(LIVING_CREATURE)) {
-            return "Donald Trump";
+            return CARDS[0][getRandom(0, CARDS[0].length - 1)];
         }
         if (type.equals(OBJECT)) {
-            return "Donald Trump";
+            return CARDS[1][getRandom(0, CARDS[1].length - 1)];
         }
         if (type.equals(ACTION)) {
-            return "Donald Trump";
+            return CARDS[2][getRandom(0, CARDS[2].length - 1)];
         }
         if (type.equals(DIFFICULT)) {
-            return "Donald Trump";
+            return CARDS[3][getRandom(0, CARDS[3].length - 1)];
         }
-        if (type.equals(ALL_PLAY)) {
-            return "Donald Trump";
-        }
-        return "Donald Trump";
+        int ar1 = getRandom(0, CARDS.length - 1);
+        return CARDS[ar1][getRandom(0, CARDS[ar1].length - 1)];
     }
 
     public void cardSuccess(boolean b) {
-        if(b) {
+        panel.setVisible(false);
+        displayWindow.remove(panel);
+        displayWindow.setVisible(false);
+        paint.setVisible(false);
+        if (b) {
             // Do nothing, still their turn.
+
+            if (gameWindow.currentTurn() == 1 && gameWindow.isOnEnd(1)) {
+                gameWindow.victory(team1Color, team2Color, 1);
+                return;
+            } else if (gameWindow.currentTurn() == 2 && gameWindow.isOnEnd(2)) {
+                gameWindow.victory(team1Color, team2Color, 2);
+                return;
+            }
             return;
         }
-        if(gameWindow.currentTurn() == 1) {
+        if (gameWindow.currentTurn() == 1) {
             gameWindow.setTurn(2);
             return;
         }

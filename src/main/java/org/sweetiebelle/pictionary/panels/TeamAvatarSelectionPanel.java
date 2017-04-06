@@ -304,7 +304,7 @@ public class TeamAvatarSelectionPanel extends JPanel {
     private void blueColorMouseClicked(MouseEvent evt) {
         if (checkAndDeselectOther(blueColor))
             return;
-        blueColor.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)), "Selected", TitledBorder.CENTER, TitledBorder.TOP));
+        blueColor.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(255, 255, 255)), "Selected", TitledBorder.CENTER, TitledBorder.TOP));
         selected = blueColor;
 
     }
@@ -333,7 +333,7 @@ public class TeamAvatarSelectionPanel extends JPanel {
     private void blackColourMouseClicked(MouseEvent evt) {
         if (checkAndDeselectOther(blackColour))
             return;
-        blackColour.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)), "Selected", TitledBorder.CENTER, TitledBorder.TOP));
+        blackColour.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(255, 255, 255)), "Selected", TitledBorder.CENTER, TitledBorder.TOP));
         selected = blackColour;
 
     }

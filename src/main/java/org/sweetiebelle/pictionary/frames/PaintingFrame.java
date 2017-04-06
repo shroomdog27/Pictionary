@@ -21,12 +21,12 @@ public class PaintingFrame extends JApplet {
      * The main routine opens a window that displays a drawing area and color palette. This main routine allows this class to be run as a stand-alone application as well as as an applet. The main routine has nothing to do with the function of this class as an applet.
      */
     public PaintingFrame() {
-        JFrame window = new JFrame("Simple Paint");
+        JFrame window = new JFrame("Paint");
         SimplePaintPanel content = new SimplePaintPanel();
         window.setContentPane(content);
         window.setSize(600, 480);
         window.setLocation(100, 100);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setVisible(true);
 
     }

@@ -21,3 +21,17 @@ jar {
                    "Main-Class": "Main")
     }
 }
+task fatJar(type: Jar) {
+    manifest {
+        attributes("Implementation-Title": "Pictionary",
+                   "Implementation-Version": version,
+                   "Class-Path": ".",
+                   "Main-Class": "Main")
+    }
+    from { 
+    	configurations.compile.collect { 
+    		it.isDirectory() ? it : zipTree(it) 
+    	} 
+    }
+    with jar
+}

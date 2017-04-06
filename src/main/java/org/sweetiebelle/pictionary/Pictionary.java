@@ -33,9 +33,7 @@ public class Pictionary implements Runnable {
     private int numOfTeamOne;
     private TeamNumberSelectionPanel teamNumSelection;
     private TeamAvatarSelectionPanel avatarPanel;
-    @SuppressWarnings("unused")
     private Color team1Color;
-    @SuppressWarnings("unused")
     private Color team2Color;
     private GameWindow gameWindow;
     private SecureRandom random;
@@ -106,13 +104,12 @@ public class Pictionary implements Runnable {
         avatarPanel.setVisible(false);
         displayWindow.remove(avatarPanel);
         displayWindow.setVisible(false);
-        // gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
-        // gameWindow.setVisible(true);
-        // System.out.println("Finished setting tiles.");
-        doCardGame(1, LIVING_CREATURE);
+         gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
+         gameWindow.setVisible(true);
+         System.out.println("Finished setting tiles.");
+        //doCardGame(1, LIVING_CREATURE);
     }
 
-    @SuppressWarnings("unused")
     private int getWhoGoesFirst() {
         return 1;
     }

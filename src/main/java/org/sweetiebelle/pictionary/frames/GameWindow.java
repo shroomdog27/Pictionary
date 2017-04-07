@@ -210,11 +210,11 @@ public class GameWindow extends JFrame {
         initComponents();
         makeArrayFromPanels();
         resetPanels(teamOne, teamTwo);
-        moveTeamOneToPanel(panels.get(5));
+        moveTeamOneToPanel(panels.get(54));
         moveTeamTwoToPanel(panels.get(54));
         teamNumber = goingFirst;
         updateteamRollingText("Team " + teamNumber + ", it's your turn to roll!");
-        teamOnePos = 5;
+        teamOnePos = 54;
         teamTwoPos = 54;
     }
 

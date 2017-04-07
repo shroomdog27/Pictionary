@@ -3,6 +3,7 @@ package org.sweetiebelle.pictionary;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.security.SecureRandom;
+
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -11,6 +12,7 @@ import org.sweetiebelle.pictionary.frames.GameWindow;
 import org.sweetiebelle.pictionary.frames.MainMenu;
 import org.sweetiebelle.pictionary.frames.PaintingFrame;
 import org.sweetiebelle.pictionary.panels.CardPanel;
+import org.sweetiebelle.pictionary.panels.CoinFlipPanel;
 import org.sweetiebelle.pictionary.panels.TeamAvatarSelectionPanel;
 import org.sweetiebelle.pictionary.panels.TeamNumberSelectionPanel;
 import org.sweetiebelle.pictionary.panels.TimeAndConfirmPanel;
@@ -38,6 +40,7 @@ public class Pictionary implements Runnable {
     private CardPanel card;
     private TimeAndConfirmPanel panel;
     private PaintingFrame paint;
+    private CoinFlipPanel coinPanel;
 
     public Pictionary() {
         random = new SecureRandom();
@@ -103,10 +106,18 @@ public class Pictionary implements Runnable {
         displayWindow.setVisible(false);
         gameWindow = new GameWindow(this, team1Color, team2Color, getWhoGoesFirst());
         gameWindow.setVisible(true);
+    }   
+    public void closeCoinWindow() {
+        displayWindow.setVisible(false);
+        displayWindow.remove(coinPanel);
     }
 
     private int getWhoGoesFirst() {
-        return 1;
+    //    final int whoGoesFirst = getRandom(1, 2);
+    //    coinPanel = new CoinFlipPanel(this, whoGoesFirst);
+  //      displayWindow.setVisible(true);
+    //    displayWindow.setContentPane(coinPanel);
+        return getRandom(1, 2);
     }
 
     /**
@@ -185,4 +196,5 @@ public class Pictionary implements Runnable {
         }
         gameWindow.setTurn(1);
     }
+
 }

@@ -2,13 +2,13 @@
 Clone this repository.
 
 ## On windows
-Run `gradlew.bat build`
+Run `gradlew.bat fatJar`
 
 ## On Not-windows
 Run
 `chmod +x gradlew`
 
-`./gradlew build`
+`./gradlew fatJar`
 
 Then you can run `java -jar build/libs/Pictionary-VERSION.jar`
 
